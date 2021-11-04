@@ -1,5 +1,7 @@
 package compilador.furb.compiler;
 
+import compilador.furb.utils.Utils;
+
 public class Lexico implements Constants {
     private int position;
     private String input;
@@ -47,13 +49,14 @@ public class Lexico implements Constants {
             }
         }
         if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
-            int currentLine = 1;
-            for (int i = 0; i<= start; i++) {
-                if (input.charAt(i) == '\n') {
-                    currentLine++;
-                }
+            String culprit = input.substring(start);
+
+            int wordEnd = Utils.findFirstWordEndIndex(culprit);
+
+            if (wordEnd > 0) {
+                culprit = culprit.substring(0, wordEnd);
             }
-            throw new LexicalError(SCANNER_ERROR[lastState], start, input.substring(start, position));
+            throw new LexicalError(SCANNER_ERROR[lastState], start, culprit);
         }
 
         position = end;

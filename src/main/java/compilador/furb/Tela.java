@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Matheus
+ * @author Leonardo de Oliveira
  */
 public class Tela extends JFrame {
 
@@ -303,7 +303,7 @@ public class Tela extends JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F1) {
-            TAMensagens.setText("Nomes dos integrantes da equipe \n\nMatheus Soares Cardoso, \nLeonardo De Olveira");
+            TAMensagens.setText("Nomes dos integrantes da equipe \n\nLeonardo De Oliveira");
         }
     }//GEN-LAST:event_TACodigoKeyPressed
 
@@ -345,7 +345,7 @@ public class Tela extends JFrame {
     }//GEN-LAST:event_btnCompilarActionPerformed
 
     private void btnEquipeActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnEquipeActionPerformed
-        TAMensagens.setText("Nomes dos integrantes da equipe \n\nMatheus Soares Cardoso, \nLeonardo De Oliveira");
+        TAMensagens.setText("Nomes dos integrantes da equipe \n\nLeonardo De Oliveira");
     }//GEN-LAST:event_btnEquipeActionPerformed
 
     private void showOpenFileDialog() {
