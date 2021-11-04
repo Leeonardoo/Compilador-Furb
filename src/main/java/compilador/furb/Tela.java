@@ -423,7 +423,11 @@ public class Tela extends JFrame {
             TAMensagens.setText(stringBuilder.toString());
         } catch (LexicalError e) {  // tratamento de erros
             int line = Utils.getLineAtStringPosition(TACodigo.getText(), e.getPosition());
-            TAMensagens.setText("Erro na linha " + line + " - " + e.getCulprit() + " " + e.getMessage());
+            String msg = "Erro na linha " + line + " - " + e.getCulprit();
+            if (!e.getCulprit().isBlank()) {
+                msg += " ";
+            }
+            TAMensagens.setText(msg + e.getMessage());
         }
     }
 

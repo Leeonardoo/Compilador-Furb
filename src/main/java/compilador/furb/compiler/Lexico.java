@@ -49,13 +49,18 @@ public class Lexico implements Constants {
             }
         }
         if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
-            String culprit = input.substring(start);
+            String culprit = "";
 
-            int wordEnd = Utils.findFirstWordEndIndex(culprit);
+            if (lastState != 3 && lastState != 24) {
+                culprit = input.substring(start);
 
-            if (wordEnd > 0) {
-                culprit = culprit.substring(0, wordEnd);
+                int wordEnd = Utils.findFirstWordEndIndex(culprit);
+
+                if (wordEnd > 0) {
+                    culprit = culprit.substring(0, wordEnd);
+                }
             }
+
             throw new LexicalError(SCANNER_ERROR[lastState], start, culprit);
         }
 
