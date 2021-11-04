@@ -22,9 +22,6 @@ comentario_linha: !([^A-Za-z0-9\n] | {letra} | {num}) *
 comentario_bloco: \{ ([^A-Za-z0-9\}\{] | {letra} | {num}) * \}
 
 #Tokens
-// NOTA trabalho no.3: 8,8
-
-
 //Equipe: Leonardo de Oliveira e Matheus Soares Cardoso
 palavra: {min} ({mai} {min} | {min})*
 
@@ -170,12 +167,8 @@ while = palavra: "while"
 <selecao>::= if <expressao> isTrueDo <lista_de_comandos> <selecao_2> endIf;
 <selecao_2>::= isFalseDo <lista_de_comandos> | î;
 
-//<repeticao>::= while <expressao> isTrueDo <lista_de_comandos> <repeticao_2> endWhile;
-//<repeticao_2>::= isFalseDo <lista_de_comandos> | î;
-
-<repeticao>::= while <expressao> <repeticao_2> <lista_de_comandos> endWhile;
-<repeticao_2>::= isFalseDo  | isTrueDo ;
-
+<repeticao>::= while <expressao> isTrueDo <lista_de_comandos> <repeticao_2> endWhile;
+<repeticao_2>::= isFalseDo <lista_de_comandos> | î;
 
 <comando>::= <atribuicao> | <entrada> | <saida> | <selecao> | <repeticao>;
 

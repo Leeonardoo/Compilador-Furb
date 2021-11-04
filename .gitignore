@@ -1,3 +1,5 @@
 /build/
 /.gradle/
 /out/
+/.idea/artifacts/Compilador_Furb_jar.xml
+/.idea/misc.xml
