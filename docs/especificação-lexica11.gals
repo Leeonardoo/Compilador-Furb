@@ -1,0 +1,201 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+min: [a-z] 
+mai: [A-Z]
+letra: {min} | {mai}
+char_esp: [^A-Za-z0-9\"\n\\]
+num: [0-9]
+und: _
+id: {und}{letra}({num} | {letra} | {und}{num} | {und}{letra})*
+
+comentario_linha: !([^A-Za-z0-9\n] | {letra} | {num}) *
+comentario_bloco: \{ ([^A-Za-z0-9\}\{] | {letra} | {num}) * \}
+
+#Tokens
+//Equipe: Leonardo de Oliveira e Matheus Soares Cardoso
+palavra: {min} ({mai} {min} | {min})*
+
+id_int: I{id}
+id_float: F{id}
+id_string: S{id}
+id_bool: B{id}
+
+int: {num}+
+float: {num}+ \. {num}+
+string: \" ({mai} | {min} | {num} | {char_esp})* \"
+
+//Palavras reservadas
+and = palavra: "and"
+endIf = palavra: "endIf"
+endWhile = palavra: "endWhile"
+false = palavra: "false"
+finish = palavra: "finish"
+if = palavra: "if"
+in = palavra: "in"
+isFalseDo = palavra: "isFalseDo"
+isTrueDo = palavra: "isTrueDo"
+newLine = palavra: "newLine"
+not = palavra: "not"
+or = palavra: "or"
+out = palavra: "out"
+space = palavra: "space"
+start = palavra: "start"
+tab = palavra: "tab"
+true = palavra: "true"
+while = palavra: "while"
+
+//Símbolos especiais
+"["
+"]"
+"("
+")"
+"=="
+"<>"
+"="
+"<"
+">"
+"+"
+"-"
+"*"
+"/"
+","
+";"
+":"
+
+//Reconhecer e ignorar caracteres de formatação
+:[\s\t\n]
+
+//Reconhecer e ignorar comentários
+:! {comentario_linha}
+:! {comentario_bloco}
+#NonTerminals
+<programa>
+
+<declaracao_variaveis>
+
+<lista_de_comandos>
+<lista_de_comandos_1>
+
+<lista_de_identificadores>
+<lista_de_identificadores_1>
+<lista_de_identificadores_2>
+
+<identificador>
+<comando>
+
+<atribuicao>
+<atribuicao_1>
+<atribuicao_2>
+
+<entrada>
+<entrada_2>
+
+<saida>
+
+<selecao>
+<selecao_2>
+
+<repeticao>
+<repeticao_2>
+
+<sufixo>
+
+<lista_de_variaveis>
+<lista_de_variaveis_1>
+<lista_de_variaveis_2>
+
+<lista_de_expressoes>
+<lista_de_expressoes_1>
+
+<expressao>
+<expressao_>
+
+<elemento>
+
+<relacional>
+<relacional_>
+
+<operador_relacional>
+
+<aritmetica>
+<aritmetica_>
+
+<termo>
+<termo_>
+
+<fator>
+<fator_>
+#Grammar
+<programa>::= start <declaracao_variaveis> <lista_de_comandos> finish;
+
+<declaracao_variaveis>::= î | ":" <lista_de_identificadores> ";";
+
+<identificador>::= id_int | id_float | id_string | id_bool;
+
+<lista_de_identificadores>::= <identificador> <lista_de_identificadores_2>;
+<lista_de_identificadores_1>::= "," <lista_de_identificadores> | î;
+<lista_de_identificadores_2>::= <lista_de_identificadores_1> | "[" int "]" <lista_de_identificadores_1>;
+
+<lista_de_variaveis>::= <identificador> <lista_de_variaveis_2>;
+<lista_de_variaveis_1>::= "," <lista_de_variaveis> | î;
+<lista_de_variaveis_2>::= <lista_de_variaveis_1> | "[" <expressao> "]" <lista_de_variaveis_1>;
+
+<lista_de_expressoes>::= <expressao> <lista_de_expressoes_1>;
+<lista_de_expressoes_1>::= "," <lista_de_expressoes> | î;
+
+<sufixo>::= ":" if <expressao> | î;
+
+<atribuicao>::= <atribuicao_1> "=" <expressao> <sufixo>;
+<atribuicao_1>::= <identificador> <atribuicao_2>;
+<atribuicao_2>::= "[" <expressao> "]" | î;
+
+<entrada>::= in "(" <entrada_2> ")";
+<entrada_2>::= <lista_de_variaveis> | string "," <lista_de_variaveis>;
+
+<saida>::= out "(" <lista_de_expressoes> ")";
+
+<selecao>::= if <expressao> isTrueDo <lista_de_comandos> <selecao_2> endIf;
+<selecao_2>::= isFalseDo <lista_de_comandos> | î;
+
+<repeticao>::= while <expressao> isTrueDo <lista_de_comandos> <repeticao_2> endWhile;
+<repeticao_2>::= isFalseDo <lista_de_comandos> | î;
+
+<comando>::= <atribuicao> | <entrada> | <saida> | <selecao> | <repeticao>;
+
+<lista_de_comandos>::= <comando> <lista_de_comandos_1>;
+<lista_de_comandos_1>::= <lista_de_comandos> | î;
+
+<expressao>::= <elemento> <expressao_>;
+<expressao_>::= î | and <elemento> <expressao_> | or <elemento> <expressao_>;
+
+<elemento>::= <relacional> | true | false | not <elemento>;
+
+<relacional>::= <aritmetica> <relacional_>;
+<relacional_>::= î | <operador_relacional> <aritmetica>;
+<operador_relacional>::= "==" | "<>" | "<" | ">";
+
+<aritmetica>::= <termo> <aritmetica_>;
+<aritmetica_>::= î | "+" <termo> <aritmetica_> | "-" <termo> <aritmetica_>;
+
+<termo>::= <fator> <termo_>;
+<termo_>::= î | "*" <fator> <termo_> | "/" <fator> <termo_>;
+
+<fator>::= <identificador> <fator_> | 
+ int | 
+ float | 
+ string | newLine | space | tab | 
+ "(" <expressao> ")" | 
+ "+" <fator> | 
+ "-" <fator>;
+
+<fator_>::= î | "[" <expressao> "]" ;
