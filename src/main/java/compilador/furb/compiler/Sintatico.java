@@ -5,21 +5,21 @@ import java.util.Stack;
 import static compilador.furb.compiler.ParserConstants.*;
 
 public class Sintatico implements Constants {
-    private Stack stack = new Stack();
+    private final Stack<Integer> stack = new Stack<>();
     private Token currentToken;
     private Token previousToken;
     private Lexico scanner;
     private Semantico semanticAnalyser;
 
-    private static final boolean isTerminal(int x) {
+    private static boolean isTerminal(int x) {
         return x < FIRST_NON_TERMINAL;
     }
 
-    private static final boolean isNonTerminal(int x) {
+    private static boolean isNonTerminal(int x) {
         return x >= FIRST_NON_TERMINAL && x < FIRST_SEMANTIC_ACTION;
     }
 
-    private static final boolean isSemanticAction(int x) {
+    private static boolean isSemanticAction(int x) {
         return x >= FIRST_SEMANTIC_ACTION;
     }
 
@@ -32,7 +32,7 @@ public class Sintatico implements Constants {
             currentToken = new Token(DOLLAR, "$", pos);
         }
 
-        int x = ((Integer) stack.pop()).intValue();
+        int x = stack.pop();
         int a = currentToken.getId();
 
         if (x == EPSILON) {
@@ -50,6 +50,7 @@ public class Sintatico implements Constants {
                 throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
             }
         } else if (isNonTerminal(x)) {
+            //noinspection SuspiciousNameCombination
             if (pushProduction(x, a))
                 return false;
             else
@@ -67,7 +68,7 @@ public class Sintatico implements Constants {
             int[] production = PRODUCTIONS[p];
             //empilha a produção em ordem reversa
             for (int i = production.length - 1; i >= 0; i--) {
-                stack.push(new Integer(production[i]));
+                stack.push(production[i]);
             }
             return true;
         } else
@@ -79,8 +80,8 @@ public class Sintatico implements Constants {
         this.semanticAnalyser = semanticAnalyser;
 
         stack.clear();
-        stack.push(new Integer(DOLLAR));
-        stack.push(new Integer(START_SYMBOL));
+        stack.push(DOLLAR);
+        stack.push(START_SYMBOL);
 
         currentToken = scanner.nextToken();
 

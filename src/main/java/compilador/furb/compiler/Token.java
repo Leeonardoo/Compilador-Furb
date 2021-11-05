@@ -1,9 +1,9 @@
 package compilador.furb.compiler;
 
 public class Token {
-    private int id;
-    private String lexeme;
-    private int position;
+    private final int id;
+    private final String lexeme;
+    private final int position;
 
     public Token(int id, String lexeme, int position) {
         this.id = id;               // classe codificada
