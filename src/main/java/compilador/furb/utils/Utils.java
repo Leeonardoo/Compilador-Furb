@@ -12,20 +12,14 @@ public class Utils {
         return currentLine;
     }
 
-    public static int findFirstWordEndIndex(String str) {
-        int wordEnd;
+    public static int findWordEndIndex(String str) {
+        int wordEnd = -1;
 
-        int nextNewLine = str.indexOf("\n");
-        int nextSpace = str.indexOf(" ");
-
-        if (nextNewLine < 0 && nextSpace < 0) {
-            wordEnd = -1;
-        } else if (nextNewLine > 0 && (nextNewLine < nextSpace || nextSpace == -1)){
-            wordEnd = nextNewLine;
-        } else if (nextSpace > 0 && (nextSpace < nextNewLine || nextNewLine == -1)) {
-            wordEnd = nextSpace;
-        } else {
-            wordEnd = nextSpace;
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isWhitespace(str.charAt(i))) {
+                wordEnd = i;
+                break;
+            }
         }
 
         return wordEnd;

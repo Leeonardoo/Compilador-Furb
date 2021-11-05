@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="windows-1252">
+    <file url="file://$PROJECT_DIR$/src/main/java/compilador/furb/compiler/ParserConstants.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/main/java/compilador/furb/compiler/ScannerConstants.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/main/java/compilador/furb/compiler/Semantico.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/main/java/compilador/furb/compiler/Sintatico.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/main/java/compilador/furb/compiler/Token.java" charset="windows-1252" />
+    <file url="PROJECT" charset="windows-1252" />
+  </component>
+</project>

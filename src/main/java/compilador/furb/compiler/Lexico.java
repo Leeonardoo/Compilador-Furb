@@ -54,7 +54,7 @@ public class Lexico implements Constants {
             if (lastState != 3 && lastState != 24) {
                 culprit = input.substring(start);
 
-                int wordEnd = Utils.findFirstWordEndIndex(culprit);
+                int wordEnd = Utils.findWordEndIndex(culprit);
 
                 if (wordEnd > 0) {
                     culprit = culprit.substring(0, wordEnd);

@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 Parser = LL
 #RegularDefinitions
 min: [a-z] 
@@ -25,7 +25,7 @@ comentario_bloco: \{ ([^A-Za-z0-9\}\{] | {letra} | {num}) * \}
 // NOTA trabalho no.3: 8,8
 
 
-//Equipe: Leonardo de Oliveira e Matheus Soares Cardoso
+//Equipe: Leonardo de Oliveira
 palavra: {min} ({mai} {min} | {min})*
 
 id_int: I{id}
@@ -169,9 +169,6 @@ while = palavra: "while"
 
 <selecao>::= if <expressao> isTrueDo <lista_de_comandos> <selecao_2> endIf;
 <selecao_2>::= isFalseDo <lista_de_comandos> | î;
-
-//<repeticao>::= while <expressao> isTrueDo <lista_de_comandos> <repeticao_2> endWhile;
-//<repeticao_2>::= isFalseDo <lista_de_comandos> | î;
 
 <repeticao>::= while <expressao> <repeticao_2> <lista_de_comandos> endWhile;
 <repeticao_2>::= isFalseDo  | isTrueDo ;
