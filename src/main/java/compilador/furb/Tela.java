@@ -1,8 +1,6 @@
 package compilador.furb;
 
-import compilador.furb.compiler.LexicalError;
-import compilador.furb.compiler.Lexico;
-import compilador.furb.compiler.Token;
+import compilador.furb.compiler.*;
 import compilador.furb.utils.Utils;
 
 import javax.swing.*;
@@ -396,32 +394,29 @@ public class Tela extends JFrame {
 
     private void compile() {
         Lexico lexico = new Lexico();
+        Sintatico sintatico = new Sintatico();
+        Semantico semantico = new Semantico();
+
         lexico.setInput(TACodigo.getText());
+
         try {
-            StringBuilder stringBuilder = new StringBuilder();
-            Token token = null;
-
-            while ((token = lexico.nextToken()) != null) {
-                int line = Utils.getLineAtStringPosition(TACodigo.getText(), token.getPosition());
-                stringBuilder.append("Linha: ")
-                        .append(line)
-                        .append(" - Classe: ")
-                        .append(token.getTokenClass())
-                        .append(" - Lexema: ")
-                        .append(token.getLexeme())
-                        .append("\n");
-            }
-
-            stringBuilder.append("\nPrograma compilado com sucesso");
-
-            TAMensagens.setText(stringBuilder.toString());
-        } catch (LexicalError e) {  // tratamento de erros
-            int line = Utils.getLineAtStringPosition(TACodigo.getText(), e.getPosition());
+            sintatico.parse(lexico, semantico); //Tradução dirigida pela sintaxe
+            TAMensagens.setText("Programa compilado com sucesso");
+        } catch (LexicalError e) {
+            int line = e.getLine(TACodigo.getText());
             String msg = "Erro na linha " + line + " - " + e.getCulprit();
             if (!e.getCulprit().isBlank()) {
                 msg += " ";
             }
             TAMensagens.setText(msg + e.getMessage());
+        } catch (SyntaticError e) {
+            String lexeme = sintatico.getCurrentToken().getLexeme();
+            if (lexeme.equals("$")) {
+                lexeme = "EOF";
+            }
+            TAMensagens.setText("Erro na linha " + e.getLine(TACodigo.getText()) + " - encontrado " + lexeme + " " + e.getMessage());
+        } catch (SemanticError e) {
+            //Trata erros semânticos
         }
     }
 

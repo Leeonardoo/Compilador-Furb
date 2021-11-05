@@ -1,5 +1,7 @@
 package compilador.furb.compiler;
 
+import compilador.furb.utils.Utils;
+
 public class AnalysisError extends Exception {
     private final int position;
 
@@ -15,6 +17,10 @@ public class AnalysisError extends Exception {
 
     public int getPosition() {
         return position;
+    }
+
+    public int getLine(String input) {
+        return Utils.getLineAtStringPosition(input, position);
     }
 
     public String toString() {

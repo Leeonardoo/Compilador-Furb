@@ -47,13 +47,14 @@ public class Sintatico implements Constants {
                     return false;
                 }
             } else {
+                //Erro tipo 1
                 throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
             }
         } else if (isNonTerminal(x)) {
             //noinspection SuspiciousNameCombination
             if (pushProduction(x, a))
                 return false;
-            else
+            else //Erro tipo 2
                 throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
         } else // isSemanticAction(x)
         {
@@ -85,7 +86,11 @@ public class Sintatico implements Constants {
 
         currentToken = scanner.nextToken();
 
-        while (!step())
-            ;
+        //noinspection StatementWithEmptyBody
+        while (!step()) ;
+    }
+
+    public Token getCurrentToken() {
+        return currentToken;
     }
 }
