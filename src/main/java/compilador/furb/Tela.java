@@ -10,9 +10,10 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.logging.Level;
@@ -41,126 +42,126 @@ public class Tela extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JPMenu = new javax.swing.JPanel();
-        btnEquipe = new javax.swing.JButton();
-        btnCompilar = new javax.swing.JButton();
-        btnRecortar = new javax.swing.JButton();
-        btnColar = new javax.swing.JButton();
-        btnCopiar = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
-        btnAbrir = new javax.swing.JButton();
-        btnNovo = new javax.swing.JButton();
-        JPStatus = new javax.swing.JPanel();
-        LBLStatus = new javax.swing.JLabel();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TACodigo = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        TAMensagens = new javax.swing.JTextArea();
+        JPMenu = new JPanel();
+        btnEquipe = new JButton();
+        btnCompilar = new JButton();
+        btnRecortar = new JButton();
+        btnColar = new JButton();
+        btnCopiar = new JButton();
+        btnSalvar = new JButton();
+        btnAbrir = new JButton();
+        btnNovo = new JButton();
+        JPStatus = new JPanel();
+        LBLStatus = new JLabel();
+        jSplitPane1 = new JSplitPane();
+        jScrollPane2 = new JScrollPane();
+        TACodigo = new JTextArea();
+        jScrollPane3 = new JScrollPane();
+        TAMensagens = new JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 600));
         setSize(new java.awt.Dimension(900, 600));
 
-        btnEquipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/equipe.png"))); // NOI18N
+        btnEquipe.setIcon(new ImageIcon(getClass().getResource("/images/equipe.png"))); // NOI18N
         btnEquipe.setText("Equipe[F1]");
-        btnEquipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEquipe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnEquipe.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnEquipe.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnEquipe.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnEquipeActionPerformed(evt);
             }
         });
 
-        btnCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/compilar.png"))); // NOI18N
+        btnCompilar.setIcon(new ImageIcon(getClass().getResource("/images/compilar.png"))); // NOI18N
         btnCompilar.setText("Compilar[F7]");
-        btnCompilar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCompilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCompilar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCompilar.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnCompilar.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnCompilar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnCompilarActionPerformed(evt);
             }
         });
 
-        btnRecortar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cortar.png"))); // NOI18N
+        btnRecortar.setIcon(new ImageIcon(getClass().getResource("/images/cortar.png"))); // NOI18N
         btnRecortar.setText("Recortar[Ctrl-X]");
-        btnRecortar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnRecortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnRecortar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnRecortar.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnRecortar.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnRecortar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnRecortarActionPerformed(evt);
             }
         });
 
-        btnColar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/colar.png"))); // NOI18N
+        btnColar.setIcon(new ImageIcon(getClass().getResource("/images/colar.png"))); // NOI18N
         btnColar.setText("Colar[Ctrl-V]");
-        btnColar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnColar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnColar.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnColar.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnColar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnColarActionPerformed(evt);
             }
         });
 
-        btnCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/copiar.png"))); // NOI18N
+        btnCopiar.setIcon(new ImageIcon(getClass().getResource("/images/copiar.png"))); // NOI18N
         btnCopiar.setText("Copiar[Ctrl-C]");
-        btnCopiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCopiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCopiar.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnCopiar.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnCopiar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnCopiarActionPerformed(evt);
             }
         });
 
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salvar.png"))); // NOI18N
+        btnSalvar.setIcon(new ImageIcon(getClass().getResource("/images/salvar.png"))); // NOI18N
         btnSalvar.setText("Salvar[Ctrl-S]");
-        btnSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnSalvar.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnSalvar.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
             }
         });
 
-        btnAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/abrir.png"))); // NOI18N
+        btnAbrir.setIcon(new ImageIcon(getClass().getResource("/images/abrir.png"))); // NOI18N
         btnAbrir.setText("Abrir[Ctrl-O]");
-        btnAbrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnAbrir.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnAbrir.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnAbrir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnAbrirActionPerformed(evt);
             }
         });
 
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/novo.PNG"))); // NOI18N
+        btnNovo.setIcon(new ImageIcon(getClass().getResource("/images/novo.PNG"))); // NOI18N
         btnNovo.setText("Novo[Ctrl-N]");
-        btnNovo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNovo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnNovo.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnNovo.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnNovo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnNovoActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout JPMenuLayout = new javax.swing.GroupLayout(JPMenu);
+        GroupLayout JPMenuLayout = new GroupLayout(JPMenu);
         JPMenu.setLayout(JPMenuLayout);
         JPMenuLayout.setHorizontalGroup(
-                JPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                JPMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(JPMenuLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(JPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnRecortar, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                                        .addComponent(btnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnEquipe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnCompilar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnColar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnCopiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(JPMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnRecortar, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                                        .addComponent(btnAbrir, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnEquipe, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnCompilar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnColar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnCopiar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSalvar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnNovo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(5, 5, 5))
         );
         JPMenuLayout.setVerticalGroup(
-                JPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                JPMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(JPMenuLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(btnNovo)
@@ -187,31 +188,31 @@ public class Tela extends JFrame {
 
         LBLStatus.setText("Barra de status");
 
-        javax.swing.GroupLayout JPStatusLayout = new javax.swing.GroupLayout(JPStatus);
+        GroupLayout JPStatusLayout = new GroupLayout(JPStatus);
         JPStatus.setLayout(JPStatusLayout);
         JPStatusLayout.setHorizontalGroup(
-                JPStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(LBLStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                JPStatusLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(LBLStatus, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         JPStatusLayout.setVerticalGroup(
-                JPStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(LBLStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                JPStatusLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(LBLStatus, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
         );
 
         jSplitPane1.setDividerLocation(300);
-        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(0.7);
 
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setToolTipText("");
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(19, 19));
         jScrollPane2.setViewportView(null);
 
         TACodigo.setColumns(20);
         TACodigo.setRows(5);
-        TACodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        TACodigo.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 TACodigoKeyPressed(evt);
             }
         });
@@ -219,16 +220,16 @@ public class Tela extends JFrame {
 
         jSplitPane1.setTopComponent(jScrollPane2);
 
-        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setToolTipText("");
-        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setViewportView(null);
 
         TAMensagens.setEditable(false);
         TAMensagens.setColumns(20);
         TAMensagens.setRows(5);
-        TAMensagens.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        TAMensagens.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 TAMensagensKeyPressed(evt);
             }
         });
@@ -236,27 +237,27 @@ public class Tela extends JFrame {
 
         jSplitPane1.setBottomComponent(jScrollPane3);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addComponent(JPMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(JPMenu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
                                 .addComponent(jSplitPane1)
                                 .addContainerGap())
-                        .addComponent(JPStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JPStatus, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(jSplitPane1))
-                                        .addComponent(JPMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(JPMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, 0)
-                                .addComponent(JPStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(JPStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -407,7 +408,7 @@ public class Tela extends JFrame {
 
             var outputFile = new File(currentFile.getParentFile(), newName);
 
-            try(BufferedWriter writer = Files.newBufferedWriter(outputFile.toPath(), StandardCharsets.UTF_8)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(outputFile.toPath(), StandardCharsets.UTF_8)) {
                 for (String line : semantico.getCodigo()) {
                     writer.write(line);
                     writer.newLine();
@@ -463,22 +464,22 @@ public class Tela extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel JPMenu;
-    private javax.swing.JPanel JPStatus;
-    private javax.swing.JLabel LBLStatus;
-    private javax.swing.JTextArea TACodigo;
-    private javax.swing.JTextArea TAMensagens;
-    private javax.swing.JButton btnAbrir;
-    private javax.swing.JButton btnColar;
-    private javax.swing.JButton btnCompilar;
-    private javax.swing.JButton btnCopiar;
-    private javax.swing.JButton btnEquipe;
-    private javax.swing.JButton btnNovo;
-    private javax.swing.JButton btnRecortar;
-    private javax.swing.JButton btnSalvar;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSplitPane jSplitPane1;
+    private JPanel JPMenu;
+    private JPanel JPStatus;
+    private JLabel LBLStatus;
+    private JTextArea TACodigo;
+    private JTextArea TAMensagens;
+    private JButton btnAbrir;
+    private JButton btnColar;
+    private JButton btnCompilar;
+    private JButton btnCopiar;
+    private JButton btnEquipe;
+    private JButton btnNovo;
+    private JButton btnRecortar;
+    private JButton btnSalvar;
+    private JScrollPane jScrollPane2;
+    private JScrollPane jScrollPane3;
+    private JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 
 }
