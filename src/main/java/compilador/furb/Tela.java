@@ -373,8 +373,8 @@ public class Tela extends JFrame {
         if (currentFile == null) {
             int retrival = chooser.showSaveDialog(null);
             if (retrival == JFileChooser.APPROVE_OPTION) {
-                currentFile = chooser.getSelectedFile();
-                try (FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt")) {
+                currentFile = new File(chooser.getSelectedFile().getAbsolutePath() + ".txt");
+                try (FileWriter fw = new FileWriter(currentFile)) {
                     fw.write(editor);
                     LBLStatus.setText("Arquivo salvo com sucesso");
                 } catch (Exception ex) {
