@@ -6,9 +6,20 @@ import java.util.Stack;
 
 public class Semantico implements Constants {
 
+    private enum Types {
+        INT("int64"),
+        FLOAT("float64");
+
+        public final String name;
+
+        private Types(String name) {
+            this.name = name;
+        }
+    }
+
     private String operador = "";
     private List<String> codigo = new ArrayList<>();
-    private Stack<String> pilhaTipos = new Stack<>();
+    private Stack<Types> pilhaTipos = new Stack<>();
 
     public void executeAction(int action, Token token) throws SemanticError {
 
@@ -32,15 +43,23 @@ public class Semantico implements Constants {
     }
 
     private void action5(Token token) {
-
+        pilhaTipos.push(Types.INT);
+        codigo.add("ldc.i8 " + token.getLexeme());
+        codigo.add("conv.r8");
     }
 
     private void action6(Token token) {
-
+        pilhaTipos.push(Types.FLOAT);
+        codigo.add("ldc.r8 " + token.getLexeme());
     }
 
     private void action14(Token token) {
+        Types type = pilhaTipos.pop();
+        if (type == Types.INT) {
+            codigo.add("conv.i8");
+        }
 
+        codigo.add("call void [mscorlib]System.Console::Write(" + type.name + ")");
     }
 
     private void action15(Token token) {
