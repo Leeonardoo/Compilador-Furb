@@ -1,7 +1,6 @@
 package compilador.furb;
 
 import compilador.furb.compiler.*;
-import compilador.furb.utils.Utils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,10 +11,10 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class Tela extends JFrame {
 
-    File openFile = null;
+    private File currentFile = null;
 
     /**
      * Creates new form Tela
@@ -269,7 +268,7 @@ public class Tela extends JFrame {
             TACodigo.setText("");
             TAMensagens.setText("");
             LBLStatus.setText("");
-            openFile = null;
+            currentFile = null;
         }
 
         if (evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_O) {
@@ -307,7 +306,7 @@ public class Tela extends JFrame {
         TACodigo.setText("");
         TAMensagens.setText("");
         LBLStatus.setText("Arquivo novo");
-        openFile = null;
+        currentFile = null;
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnAbrirActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
@@ -347,7 +346,7 @@ public class Tela extends JFrame {
         chooser.showOpenDialog(null);
         if (chooser.getSelectedFile() != null) {
             File f = chooser.getSelectedFile();
-            openFile = chooser.getSelectedFile();
+            currentFile = chooser.getSelectedFile();
             LBLStatus.setText("Nome do arquivo selecionado - " + f.getName() + "\n"
                     + " - Caminho do arquivo selecionado - " + f.getPath());
             String text = "";
@@ -371,10 +370,10 @@ public class Tela extends JFrame {
     private void showSaveFileDialog() {
         String editor = TACodigo.getText();
         JFileChooser chooser = new JFileChooser();
-        if (openFile == null) {
+        if (currentFile == null) {
             int retrival = chooser.showSaveDialog(null);
             if (retrival == JFileChooser.APPROVE_OPTION) {
-                openFile = chooser.getSelectedFile();
+                currentFile = chooser.getSelectedFile();
                 try (FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt")) {
                     fw.write(editor);
                     LBLStatus.setText("Arquivo salvo com sucesso");
@@ -383,7 +382,7 @@ public class Tela extends JFrame {
                 }
             }
         } else {
-            chooser.setSelectedFile(openFile);
+            chooser.setSelectedFile(currentFile);
             try (FileWriter fw = new FileWriter(chooser.getSelectedFile())) {
                 fw.write(editor);
             } catch (Exception ex) {
@@ -401,6 +400,23 @@ public class Tela extends JFrame {
 
         try {
             sintatico.parse(lexico, semantico); //Tradução dirigida pela sintaxe
+
+            String newName = currentFile.getName();
+            newName = newName.substring(0, newName.lastIndexOf("."));
+            newName += ".il";
+
+            var outputFile = new File(currentFile.getParentFile(), newName);
+
+            try(BufferedWriter writer = Files.newBufferedWriter(outputFile.toPath(), StandardCharsets.UTF_8)) {
+                for (String line : semantico.getCodigo()) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                TAMensagens.setText(e.toString());
+            }
+
             TAMensagens.setText("Programa compilado com sucesso");
         } catch (LexicalError e) {
             int line = e.getLine(TACodigo.getText());
