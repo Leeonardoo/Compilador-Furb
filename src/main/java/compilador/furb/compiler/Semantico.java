@@ -8,11 +8,13 @@ public class Semantico implements Constants {
 
     private enum Types {
         INT("int64"),
-        FLOAT("float64");
+        FLOAT("float64"),
+        BOOL("bool"),
+        STRING("string");
 
         public final String name;
 
-        private Types(String name) {
+        Types(String name) {
             this.name = name;
         }
     }
@@ -24,15 +26,27 @@ public class Semantico implements Constants {
     public void executeAction(int action, Token token) throws SemanticError {
 
         switch (action) {
+            case 1 -> action1(token);
+
             case 5 -> action5(token);
 
             case 6 -> action6(token);
 
-            case 14 -> action14(token);
+            case 9 -> action9(token);
 
-            case 15 -> action15(token);
+            case 11 -> action11();
 
-            case 16 -> action16(token);
+            case 12 -> action12();
+
+            case 14 -> action14();
+
+            case 15 -> action15();
+
+            case 16 -> action16();
+
+            case 17 -> action17(token);
+
+            case 21 -> action21(token);
 
             //default -> throw new SemanticError("Ação semântica não implementada: " + action);
         }
@@ -40,6 +54,22 @@ public class Semantico implements Constants {
 
     public List<String> getCodigo() {
         return new ArrayList<>(codigo);
+    }
+
+    private void action1(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if ((type1 != Types.INT && type1 != Types.FLOAT) || type2 != Types.INT && type2 != Types.FLOAT) {
+            throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
+        }
+
+        if (type1 == Types.FLOAT || type2 == Types.FLOAT) {
+            pilhaTipos.push(Types.FLOAT);
+        } else {
+            pilhaTipos.push(Types.INT);
+        }
+        codigo.add("add");
     }
 
     private void action5(Token token) {
@@ -53,7 +83,21 @@ public class Semantico implements Constants {
         codigo.add("ldc.r8 " + token.getLexeme());
     }
 
-    private void action14(Token token) {
+    private void action9(Token token) {
+        operador = token.getLexeme();
+    }
+
+    private void action11() {
+        pilhaTipos.push(Types.BOOL);
+        codigo.add("ldc.i4.1");
+    }
+
+    private void action12() {
+        pilhaTipos.push(Types.BOOL);
+        codigo.add("ldc.i4.0");
+    }
+
+    private void action14() {
         Types type = pilhaTipos.pop();
         if (type == Types.INT) {
             codigo.add("conv.i8");
@@ -62,24 +106,45 @@ public class Semantico implements Constants {
         codigo.add("call void [mscorlib]System.Console::Write(" + type.name + ")");
     }
 
-    private void action15(Token token) {
+    private void action15() {
         codigo.add("""
                 .assembly extern mscorlib {}
                 .assembly _codigo_objeto{}
                 .module   _codigo_objeto.exe
                 .class public _UNICA{
                 .method static public void _principal() {
-                    .entrypoint
+                .entrypoint
                 """
         );
     }
 
-    private void action16(Token token) {
+    private void action16() {
         codigo.add("""
-                    ret
-                    }
+                ret
+                }
                 }
                 """
         );
+    }
+
+    private void action17(Token token) {
+        pilhaTipos.push(Types.STRING);
+        codigo.add("ldstr " + token.getLexeme());
+    }
+
+    private void action21(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if ((type1 != Types.INT && type1 != Types.FLOAT) || type2 != Types.INT && type2 != Types.FLOAT) {
+            throw new SemanticError("tipos incompatíveis em expressão lógica", token.getPosition());
+        }
+
+        if (type1 == Types.FLOAT || type2 == Types.FLOAT) {
+            pilhaTipos.push(Types.FLOAT);
+        } else {
+            pilhaTipos.push(Types.INT);
+        }
+        codigo.add("add");
     }
 }

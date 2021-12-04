@@ -428,10 +428,11 @@ public class Tela extends JFrame {
             TAMensagens.setText(msg + e.getMessage());
         } catch (SyntaticError e) {
             String lexeme = sintatico.getCurrentToken().getLexeme();
+            int line = e.getLine(TACodigo.getText());
             if (lexeme.equals("$")) {
                 lexeme = "EOF";
             }
-            TAMensagens.setText("Erro na linha " + e.getLine(TACodigo.getText()) + " - encontrado " + lexeme + " " + e.getMessage());
+            TAMensagens.setText("Erro na linha " + line + " - encontrado " + lexeme + " " + e.getMessage());
         } catch (SemanticError e) {
             //Trata erros semânticos
         }
