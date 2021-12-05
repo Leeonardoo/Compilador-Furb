@@ -52,6 +52,7 @@ public class Semantico implements Constants {
 
             case 22 -> action22(token);
 
+            case 34 -> action34(token);
             //default -> throw new SemanticError("Ação semântica não implementada: " + action);
         }
     }
@@ -185,5 +186,24 @@ public class Semantico implements Constants {
         pilhaTipos.push(Types.BOOL);
 
         codigo.add("or");
+    }
+
+    private void action34(Token token) throws SemanticError {
+        codigo.add("ldloc "+ token.getLexeme());
+
+        String id = token.getLexeme();
+
+        switch (id.charAt(0)) {
+            case 'I' -> {
+                pilhaTipos.push(Types.INT);
+                codigo.add("conv.r8");
+            }
+
+            case 'F' -> pilhaTipos.push(Types.FLOAT);
+
+            case 'S' -> pilhaTipos.push(Types.STRING);
+
+            case 'B' -> pilhaTipos.push(Types.BOOL);
+        }
     }
 }
