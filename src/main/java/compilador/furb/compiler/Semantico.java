@@ -22,6 +22,7 @@ public class Semantico implements Constants {
     private String operador = "";
     private List<String> codigo = new ArrayList<>();
     private Stack<Types> pilhaTipos = new Stack<>();
+    private List<String> listaId = new ArrayList<>();
 
     public void executeAction(int action, Token token) throws SemanticError {
 
@@ -51,6 +52,10 @@ public class Semantico implements Constants {
             case 21 -> action21(token);
 
             case 22 -> action22(token);
+
+            case 23 -> action23(token);
+
+            case 24 -> action24(token);
 
             case 34 -> action34(token);
             //default -> throw new SemanticError("Ação semântica não implementada: " + action);
@@ -188,8 +193,31 @@ public class Semantico implements Constants {
         codigo.add("or");
     }
 
-    private void action34(Token token) throws SemanticError {
-        codigo.add("ldloc "+ token.getLexeme());
+    private void action23(Token token) {
+        for (String id : listaId) {
+            String type = "";
+            switch (id.charAt(0)) {
+                case 'I' -> type = Types.INT.name;
+
+                case 'F' -> type = Types.FLOAT.name;
+
+                case 'S' -> type = Types.STRING.name;
+
+                case 'B' -> type = Types.BOOL.name;
+            }
+
+            codigo.add(".locals(" + type + " " + id + ")");
+        }
+
+        listaId.clear();
+    }
+
+    private void action24(Token token) {
+        listaId.add(token.getLexeme());
+    }
+
+    private void action34(Token token) {
+        codigo.add("ldloc " + token.getLexeme());
 
         String id = token.getLexeme();
 
