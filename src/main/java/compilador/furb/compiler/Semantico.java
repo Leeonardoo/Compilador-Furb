@@ -34,6 +34,8 @@ public class Semantico implements Constants {
 
             case 9 -> action9(token);
 
+            case 10 -> action10(token);
+
             case 11 -> action11();
 
             case 12 -> action12();
@@ -47,6 +49,8 @@ public class Semantico implements Constants {
             case 17 -> action17(token);
 
             case 21 -> action21(token);
+
+            case 22 -> action22(token);
 
             //default -> throw new SemanticError("Ação semântica não implementada: " + action);
         }
@@ -85,6 +89,31 @@ public class Semantico implements Constants {
 
     private void action9(Token token) {
         operador = token.getLexeme();
+    }
+
+    private void action10(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if (type1 != type2) {
+            throw new SemanticError("tipos incompatíveis em expressão relacional", token.getPosition());
+        }
+        pilhaTipos.push(Types.BOOL);
+
+        switch (operador) {
+            case ">" -> codigo.add("cgt");
+
+            case "<" -> codigo.add("clt");
+
+            case "==" -> codigo.add("ceq");
+
+            case "<>" -> codigo.add("""
+                    ceq
+                    ldc.i4.0
+                    ceq
+                    """
+            );
+        }
     }
 
     private void action11() {
@@ -136,15 +165,25 @@ public class Semantico implements Constants {
         Types type1 = pilhaTipos.pop();
         Types type2 = pilhaTipos.pop();
 
-        if ((type1 != Types.INT && type1 != Types.FLOAT) || type2 != Types.INT && type2 != Types.FLOAT) {
+        if (type1 != Types.BOOL || type2 != Types.BOOL) {
             throw new SemanticError("tipos incompatíveis em expressão lógica", token.getPosition());
         }
 
-        if (type1 == Types.FLOAT || type2 == Types.FLOAT) {
-            pilhaTipos.push(Types.FLOAT);
-        } else {
-            pilhaTipos.push(Types.INT);
+        pilhaTipos.push(Types.BOOL);
+
+        codigo.add("and");
+    }
+
+    private void action22(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if (type1 != Types.BOOL || type2 != Types.BOOL) {
+            throw new SemanticError("tipos incompatíveis em expressão lógica", token.getPosition());
         }
-        codigo.add("add");
+
+        pilhaTipos.push(Types.BOOL);
+
+        codigo.add("or");
     }
 }
