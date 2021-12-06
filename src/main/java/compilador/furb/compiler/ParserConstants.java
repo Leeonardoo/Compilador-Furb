@@ -176,7 +176,7 @@ public interface ParserConstants {
             "esperado start", //"<programa> inválido",
             "esperado  identificador  if  in  out  while  :", //"<declaracao_variaveis> inválido",
             "esperado  identificador  if  in  out  while", //"<lista_de_comandos> inválido",
-            "esperado  identificador  endIf  wndWhile  finish  if  in  isFalseDo  out  while  ", //"<lista_de_comandos_1> inválido",
+            "esperado  identificador  endIf  endWhile  finish  if  in  isFalseDo  out  while  ", //"<lista_de_comandos_1> inválido",
             "esperado identificador", //"<lista_de_identificadores> inválido",
             "esperado  ,  ;", //"<lista_de_identificadores_1> inválido",
             "esperado  [  ,  ;", //"<lista_de_identificadores_2> inválido",
