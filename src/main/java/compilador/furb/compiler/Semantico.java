@@ -53,9 +53,12 @@ public class Semantico implements Constants {
 
             case 22 -> action22(token);
 
-            case 23 -> action23(token);
+            case 23 -> action23();
 
             case 24 -> action24(token);
+
+            //1 - 22
+            //25, 26 e 27
 
             case 34 -> action34(token);
             //default -> throw new SemanticError("Ação semântica não implementada: " + action);
@@ -193,7 +196,7 @@ public class Semantico implements Constants {
         codigo.add("or");
     }
 
-    private void action23(Token token) {
+    private void action23() {
         for (String id : listaId) {
             String type = "";
             switch (id.charAt(0)) {

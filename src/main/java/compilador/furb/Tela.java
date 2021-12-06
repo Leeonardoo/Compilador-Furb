@@ -378,16 +378,20 @@ public class Tela extends JFrame {
                 try (FileWriter fw = new FileWriter(currentFile)) {
                     fw.write(editor);
                     LBLStatus.setText("Arquivo salvo com sucesso");
+                    TAMensagens.setText("");
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    TAMensagens.setText("Ocorreu um erro ao salvar o arquivo");
                 }
             }
         } else {
             chooser.setSelectedFile(currentFile);
             try (FileWriter fw = new FileWriter(chooser.getSelectedFile())) {
                 fw.write(editor);
+                TAMensagens.setText("");
             } catch (Exception ex) {
                 ex.printStackTrace();
+                TAMensagens.setText("Ocorreu um erro ao salvar o arquivo");
             }
         }
     }
