@@ -29,9 +29,19 @@ public class Semantico implements Constants {
         switch (action) {
             case 1 -> action1(token);
 
+            case 2 -> action2(token);
+
+            case 3 -> action3(token);
+
+            case 4 -> action4(token);
+
             case 5 -> action5(token);
 
             case 6 -> action6(token);
+
+            case 7 -> action7(token);
+
+            case 8 -> action8(token);
 
             case 9 -> action9(token);
 
@@ -61,7 +71,8 @@ public class Semantico implements Constants {
             //25, 26 e 27
 
             case 34 -> action34(token);
-            //default -> throw new SemanticError("Ação semântica não implementada: " + action);
+
+            default -> throw new SemanticError("Ação semântica não implementada: " + action);
         }
     }
 
@@ -73,7 +84,7 @@ public class Semantico implements Constants {
         Types type1 = pilhaTipos.pop();
         Types type2 = pilhaTipos.pop();
 
-        if ((type1 != Types.INT && type1 != Types.FLOAT) || type2 != Types.INT && type2 != Types.FLOAT) {
+        if ((type1 != Types.INT && type1 != Types.FLOAT) || (type2 != Types.INT && type2 != Types.FLOAT)) {
             throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
         }
 
@@ -85,6 +96,51 @@ public class Semantico implements Constants {
         codigo.add("add");
     }
 
+    private void action2(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if ((type1 != Types.INT && type1 != Types.FLOAT) || (type2 != Types.INT && type2 != Types.FLOAT)) {
+            throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
+        }
+
+        if (type1 == Types.FLOAT || type2 == Types.FLOAT) {
+            pilhaTipos.push(Types.FLOAT);
+        } else {
+            pilhaTipos.push(Types.INT);
+        }
+        codigo.add("sub");
+    }
+
+    private void action3(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if ((type1 != Types.INT && type1 != Types.FLOAT) || (type2 != Types.INT && type2 != Types.FLOAT)) {
+            throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
+        }
+
+        if (type1 == Types.FLOAT || type2 == Types.FLOAT) {
+            pilhaTipos.push(Types.FLOAT);
+        } else {
+            pilhaTipos.push(Types.INT);
+        }
+        codigo.add("mul");
+    }
+
+    private void action4(Token token) throws SemanticError {
+        Types type1 = pilhaTipos.pop();
+        Types type2 = pilhaTipos.pop();
+
+        if ((type1 != Types.INT && type1 != Types.FLOAT) || type1 != type2) {
+            throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
+        }
+
+        pilhaTipos.push(type1);
+
+        codigo.add("div");
+    }
+
     private void action5(Token token) {
         pilhaTipos.push(Types.INT);
         codigo.add("ldc.i8 " + token.getLexeme());
@@ -94,6 +150,27 @@ public class Semantico implements Constants {
     private void action6(Token token) {
         pilhaTipos.push(Types.FLOAT);
         codigo.add("ldc.r8 " + token.getLexeme());
+    }
+
+    private void action7(Token token) throws SemanticError {
+        Types type = pilhaTipos.pop();
+        if (type != Types.FLOAT && type != Types.INT) {
+            throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
+        }
+
+        pilhaTipos.push(type);
+    }
+
+    private void action8(Token token) throws SemanticError {
+        Types type = pilhaTipos.pop();
+        if (type != Types.FLOAT && type != Types.INT) {
+            throw new SemanticError("tipos incompatíveis em expressão aritmética", token.getPosition());
+        }
+
+        pilhaTipos.push(type);
+        codigo.add("ldc.i8 -1");
+        codigo.add("conv.r8");
+        codigo.add("mul");
     }
 
     private void action9(Token token) {
@@ -149,10 +226,11 @@ public class Semantico implements Constants {
                 .assembly extern mscorlib {}
                 .assembly _codigo_objeto{}
                 .module   _codigo_objeto.exe
+                
                 .class public _UNICA{
+                
                 .method static public void _principal() {
-                .entrypoint
-                """
+                .entrypoint"""
         );
     }
 
@@ -160,8 +238,7 @@ public class Semantico implements Constants {
         codigo.add("""
                 ret
                 }
-                }
-                """
+                }"""
         );
     }
 

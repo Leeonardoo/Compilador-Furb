@@ -438,7 +438,8 @@ public class Tela extends JFrame {
             }
             TAMensagens.setText("Erro na linha " + line + " - encontrado " + lexeme + " " + e.getMessage());
         } catch (SemanticError e) {
-            //Trata erros semânticos
+            int line = e.getLine(TACodigo.getText());
+            TAMensagens.setText("Erro na linha " + line + " - " + e.getMessage());
         }
     }
 
