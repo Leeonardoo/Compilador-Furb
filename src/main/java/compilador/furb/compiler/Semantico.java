@@ -24,6 +24,9 @@ public class Semantico implements Constants {
     private Stack<Types> pilhaTipos = new Stack<>();
     private List<String> listaId = new ArrayList<>();
 
+    private Stack<Integer> pilhaRotulos = new Stack<>();
+    private int rotulo = 1;
+
     public void executeAction(int action, Token token) throws SemanticError {
 
         switch (action) {
@@ -75,11 +78,21 @@ public class Semantico implements Constants {
 
             case 24 -> action24(token);
 
-            case 25 -> action25(token);
+            case 25 -> action25();
 
             case 27 -> action27();
 
-            //25, 26 e 27
+            case 28 -> action28();
+
+            case 29 -> action29();
+
+            case 30 -> action30();
+
+            case 31 -> action31();
+
+            case 32 -> action32(token);
+
+            case 33 -> action33();
 
             case 34 -> action34(token);
 
@@ -207,8 +220,7 @@ public class Semantico implements Constants {
             case "<>" -> codigo.add("""
                     ceq
                     ldc.i4.0
-                    ceq
-                    """
+                    ceq"""
             );
         }
     }
@@ -335,18 +347,20 @@ public class Semantico implements Constants {
     }
 
     //TODO verificar
-    /** igual
+
+    /**
+     * igual
      * ação #34:
-     *   id:= listaid.retira
-     *   tipoexp:= pilha.desempilha
-     *
-     *   se (tipoid=int64)
-     *   então código.adiciona (conv.i8)
-     *   fimse
-     *   código.adiciona (stloc id)
+     * id:= listaid.retira
+     * tipoexp:= pilha.desempilha
+     * <p>
+     * se (tipoid=int64)
+     * então código.adiciona (conv.i8)
+     * fimse
+     * código.adiciona (stloc id)
      */
-    private void action25(Token token) throws SemanticError {
-        String id = listaId.remove(listaId.size()-1);
+    private void action25() throws SemanticError {
+        String id = listaId.remove(listaId.size() - 1);
 
         Types typeId;
 
@@ -390,20 +404,63 @@ public class Semantico implements Constants {
             codigo.add("call string [mscorlib]System.Console::ReadLine()");
 
             if (type != Types.STRING) {
-                String clasz = "";
+                String clazz = "";
 
                 switch (type) {
-                    case INT -> clasz = "Int64";
-                    case FLOAT -> clasz = "Double";
-                    case BOOL -> clasz = "Boolean";
+                    case INT -> clazz = "Int64";
+                    case FLOAT -> clazz = "Double";
+                    case BOOL -> clazz = "Boolean";
                 }
-                codigo.add("call " + type.name + " [mscorlib]System." + clasz + "::Parse(string)");
+                codigo.add("call " + type.name + " [mscorlib]System." + clazz + "::Parse(string)");
             }
 
             codigo.add("stloc " + id);
         }
 
         listaId.clear();
+    }
+
+    private void action28() {
+        codigo.add("brfalse r" + rotulo);
+        pilhaRotulos.push(rotulo);
+        rotulo++;
+    }
+
+    private void action29() {
+        codigo.add("r" + pilhaRotulos.pop() + ":");
+    }
+
+    private void action30() {
+        codigo.add("br r" + rotulo);
+        codigo.add("r" + pilhaRotulos.pop() + ":");
+        pilhaRotulos.push(rotulo);
+        rotulo++;
+    }
+
+    private void action31() {
+        codigo.add("r" + rotulo + ":");
+        pilhaRotulos.push(rotulo);
+        rotulo++;
+    }
+
+    private void action32(Token token) {
+        if (token.getLexeme().equals("isTrueDo")) {
+            codigo.add("brfalse r" + rotulo);
+        } else {
+            codigo.add("brtrue r" + rotulo);
+        }
+
+        pilhaRotulos.push(rotulo);
+        rotulo++;
+    }
+
+    private void action33() {
+        int rotulo1 = pilhaRotulos.pop();
+        int rotulo2 = pilhaRotulos.pop();
+        codigo.add("br r" + rotulo2);
+        codigo.add("r" + rotulo1 + ":");
+        pilhaRotulos.push(rotulo);
+        rotulo++;
     }
 
     private void action34(Token token) {
