@@ -51,6 +51,8 @@ public class Semantico implements Constants {
 
             case 12 -> action12();
 
+            case 13 -> action13(token);
+
             case 14 -> action14();
 
             case 15 -> action15();
@@ -58,6 +60,12 @@ public class Semantico implements Constants {
             case 16 -> action16();
 
             case 17 -> action17(token);
+
+            case 18 -> action18(token);
+
+            case 19 -> action19(token);
+
+            case 20 -> action20(token);
 
             case 21 -> action21(token);
 
@@ -72,7 +80,7 @@ public class Semantico implements Constants {
 
             case 34 -> action34(token);
 
-            default -> throw new SemanticError("Ação semântica não implementada: " + action);
+            default -> throw new IllegalArgumentException("Ação semântica não implementada: " + action);
         }
     }
 
@@ -212,6 +220,18 @@ public class Semantico implements Constants {
         codigo.add("ldc.i4.0");
     }
 
+    private void action13(Token token) throws SemanticError {
+        Types type = pilhaTipos.pop();
+        if (type != Types.BOOL) {
+            throw new SemanticError("tipo incompatível em expressão lógica", token.getPosition());
+        }
+
+        pilhaTipos.push(Types.BOOL);
+
+        codigo.add("ldc.i4.1");
+        codigo.add("xor");
+    }
+
     private void action14() {
         Types type = pilhaTipos.pop();
         if (type == Types.INT) {
@@ -245,6 +265,21 @@ public class Semantico implements Constants {
     private void action17(Token token) {
         pilhaTipos.push(Types.STRING);
         codigo.add("ldstr " + token.getLexeme());
+    }
+
+    private void action18(Token token) {
+        pilhaTipos.push(Types.STRING);
+        codigo.add("ldstr \"\\n\"");
+    }
+
+    private void action19(Token token) {
+        pilhaTipos.push(Types.STRING);
+        codigo.add("ldstr \" \"");
+    }
+
+    private void action20(Token token) {
+        pilhaTipos.push(Types.STRING);
+        codigo.add("ldstr \"\\t\"");
     }
 
     private void action21(Token token) throws SemanticError {
