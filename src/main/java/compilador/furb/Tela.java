@@ -340,6 +340,7 @@ public class Tela extends JFrame {
         TAMensagens.setText("Nomes dos integrantes da equipe \n\nLeonardo De Oliveira");
     }//GEN-LAST:event_btnEquipeActionPerformed
 
+    //TODO Melhorar verificação "já é .txt"
     private void showOpenFileDialog() {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de texto", "txt");
@@ -368,6 +369,7 @@ public class Tela extends JFrame {
         }
     }
 
+    //TODO Melhorar verificação "já é .txt"
     private void showSaveFileDialog() {
         String editor = TACodigo.getText();
         JFileChooser chooser = new JFileChooser();

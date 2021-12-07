@@ -61,11 +61,11 @@ public class Semantico implements Constants {
 
             case 17 -> action17(token);
 
-            case 18 -> action18(token);
+            case 18 -> action18();
 
-            case 19 -> action19(token);
+            case 19 -> action19();
 
-            case 20 -> action20(token);
+            case 20 -> action20();
 
             case 21 -> action21(token);
 
@@ -75,7 +75,10 @@ public class Semantico implements Constants {
 
             case 24 -> action24(token);
 
-            //1 - 22
+            case 25 -> action25(token);
+
+            case 27 -> action27();
+
             //25, 26 e 27
 
             case 34 -> action34(token);
@@ -246,9 +249,9 @@ public class Semantico implements Constants {
                 .assembly extern mscorlib {}
                 .assembly _codigo_objeto{}
                 .module   _codigo_objeto.exe
-                
+                                
                 .class public _UNICA{
-                
+                                
                 .method static public void _principal() {
                 .entrypoint"""
         );
@@ -267,17 +270,17 @@ public class Semantico implements Constants {
         codigo.add("ldstr " + token.getLexeme());
     }
 
-    private void action18(Token token) {
+    private void action18() {
         pilhaTipos.push(Types.STRING);
         codigo.add("ldstr \"\\n\"");
     }
 
-    private void action19(Token token) {
+    private void action19() {
         pilhaTipos.push(Types.STRING);
         codigo.add("ldstr \" \"");
     }
 
-    private void action20(Token token) {
+    private void action20() {
         pilhaTipos.push(Types.STRING);
         codigo.add("ldstr \"\\t\"");
     }
@@ -329,6 +332,78 @@ public class Semantico implements Constants {
 
     private void action24(Token token) {
         listaId.add(token.getLexeme());
+    }
+
+    //TODO verificar
+    /** igual
+     * ação #34:
+     *   id:= listaid.retira
+     *   tipoexp:= pilha.desempilha
+     *
+     *   se (tipoid=int64)
+     *   então código.adiciona (conv.i8)
+     *   fimse
+     *   código.adiciona (stloc id)
+     */
+    private void action25(Token token) throws SemanticError {
+        String id = listaId.remove(listaId.size()-1);
+
+        Types typeId;
+
+        switch (id.charAt(0)) {
+            case 'I' -> typeId = Types.INT;
+
+            case 'F' -> typeId = Types.FLOAT;
+
+            case 'S' -> typeId = Types.STRING;
+
+            case 'B' -> typeId = Types.BOOL;
+
+            default -> throw new SemanticError("tipo de identificador inválido");
+        }
+
+        if (typeId == Types.INT) {
+            codigo.add("conv.i8");
+        }
+
+        codigo.add("stloc " + id);
+
+    }
+
+    //TODO verificar
+    private void action27() throws SemanticError {
+        for (String id : listaId) {
+            Types type;
+
+            switch (id.charAt(0)) {
+                case 'I' -> type = Types.INT;
+
+                case 'F' -> type = Types.FLOAT;
+
+                case 'S' -> type = Types.STRING;
+
+                case 'B' -> type = Types.BOOL;
+
+                default -> throw new SemanticError("tipo de identificador inválido");
+            }
+
+            codigo.add("call string [mscorlib]System.Console::ReadLine()");
+
+            if (type != Types.STRING) {
+                String clasz = "";
+
+                switch (type) {
+                    case INT -> clasz = "Int64";
+                    case FLOAT -> clasz = "Double";
+                    case BOOL -> clasz = "Boolean";
+                }
+                codigo.add("call " + type.name + " [mscorlib]System." + clasz + "::Parse(string)");
+            }
+
+            codigo.add("stloc " + id);
+        }
+
+        listaId.clear();
     }
 
     private void action34(Token token) {
